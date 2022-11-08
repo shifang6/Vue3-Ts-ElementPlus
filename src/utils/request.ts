@@ -24,10 +24,11 @@ request.interceptors.response.use(
      console.log(a,b,c)
      *
      */
-    const { code }: { code: number } = config.data.data;
+    console.log(config)
+    const { code }: { code: number } = config.data;
     console.log("code", code);
     if (code != 200) return Promise.reject();
-    return config.data.data;
+    return config.data;
   },
   (error) => {
     console.log(error);

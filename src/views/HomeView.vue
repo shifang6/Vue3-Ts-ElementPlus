@@ -1,24 +1,36 @@
 <template>
-  <el-button>Default</el-button>
-  <el-button type="primary">Primary</el-button>
-  <el-button type="success">Success</el-button>
-  <el-button type="info">Info</el-button>
-  <el-button type="warning">Warning</el-button>
-  <el-button type="danger">Danger</el-button>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+  <div class="common-layout">
+    <el-container>
+      <el-header>Header</el-header>
+      <el-container>
+        <el-aside>
+          <!-- <MenuList /> -->
+        </el-aside>
+        <el-main>
+          <router-view />
+        </el-main>
+      </el-container>
+    </el-container>
   </div>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component";
-import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
 
-@Options({
-  components: {
-    HelloWorld,
+<script lang="ts">
+import { defineComponent } from "vue";
+import { useRouter } from "vue-router";
+import MenuList from "@/components/MenuList.vue";
+
+export default defineComponent({
+  components:{
+    MenuList
   },
-})
-export default class HomeView extends Vue {}
+  setup() {
+    const routers = useRouter();
+    console.log(routers.getRoutes());
+    return { routers };
+  }
+});
 </script>
+
+<style lang="scss" scoped>
+</style>

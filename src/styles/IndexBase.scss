@@ -1,0 +1,69 @@
+.index {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  background: #f3f6fb;
+  &-context {
+    width: 1200px;
+  }
+  &-content {
+    width: 1200px;
+    //min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    //background: #fff4e2;
+
+    &-left {
+      width: 620px;
+      //height: 620px;
+      //background: #1fda4b;
+    }
+    &-right {
+      width: 528px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      &-swiper {
+        height: 368px;
+        //background: #0a76a4;
+      }
+      &-dataNews {
+        height: 368px;
+        //background: #1de7ff;
+      }
+    }
+    &-report {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
+.hover:hover {
+  border: 2px solid #1480c4;
+}
+.hover1px :hover {
+  border: 1px solid #1480c4;
+}
+.hoverPx :hover {
+  border: 1px solid #1480c4;
+}
+.hoverText:hover {
+  color: #f56c6c !important;
+  //z-index: 10000;
+  cursor: pointer;
+}
+.cutText1Line {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cutText2Line {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
