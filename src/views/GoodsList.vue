@@ -77,20 +77,49 @@ export default defineComponent({
     getList();
     // 查询按钮
     const resetPageReq = () => {
-      data.goodsRows.filter((item) => {});
-    };
-    const FilterSearchItems = (
-      keys: string = "title",
-      values: string = "牛奶"
-    ) => {
-      if (data.goodsFormInt.title || data.goodsFormInt.introduce) {
-        let checks = [];
-        data.goodsRows.forEach((item) => {
-          if (item[keys].indexOf(values) > -1) checks.push(item);
-        });
+      let getSearchArrayList: goodsList[] = [];
+      if (data.goodsFormInt.title) {
+        getSearchArrayList = Array.from(
+          new Set(FilterSearchItems(data.goodsFormInt.title))
+        );
+      } else if (data.goodsFormInt.introduce) {
+        getSearchArrayList = Array.from(
+          new Set(FilterSearchItems(data.goodsFormInt.introduce))
+        );
+      } else {
+        getSearchArrayList = Array.from(new Set(FilterSearchItems()));
       }
+      console.log(getSearchArrayList);
+      handlePagerCut(
+        1,
+        100,
+        getSearchArrayList
+      );
+      data.goodsFormInt.total = getSearchArrayList.length;
     };
-    FilterSearchItems()
+    const FilterSearchItems = (values: string = "") => {
+      let searchTitleArr: goodsList[] = []; //定义数组，用来接受查询过后要展示的数据
+      if (data.goodsFormInt.title) {
+        searchTitleArr = data.goodsRows.filter((item) => {
+          return item.title.indexOf(values) !== -1;
+        });
+      } else if (data.goodsFormInt.introduce) {
+        searchTitleArr = data.goodsRows.filter((item) => {
+          return item.introduce.indexOf(values) !== -1;
+        });
+      } else {
+        searchTitleArr = [
+          ...(searchTitleArr = data.goodsRows.filter((item) => {
+            return item.title.indexOf(values) !== -1;
+          })),
+          ...(searchTitleArr = data.goodsRows.filter((item) => {
+            return item.introduce.indexOf(values) !== -1;
+          })),
+        ];
+      }
+      return searchTitleArr;
+    };
+    FilterSearchItems();
     // 重置按钮
     const resetForm = () => {
       data.goodsFormInt.title = "";
@@ -106,6 +135,10 @@ export default defineComponent({
       console.log(pagination(pageNum, pageSize, ArrayList));
       data.handleList = pagination(pageNum, pageSize, ArrayList);
     };
+    /***
+     * 点击搜索后需要对搜索后的数组进行分页时不能使用如下函数
+     * 
+     */
     // 每页多少条切换
     const handleSizeChange = (val: number) => {
       console.log(`${val} items per page`);
