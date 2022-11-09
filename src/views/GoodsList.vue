@@ -52,7 +52,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from "vue";
+import { defineComponent, onMounted, reactive, toRefs } from "vue";
 import { goodsFormInt, goodsList, GoodsData } from "@/types/goods";
 import { GetGoodsListApi } from "@/api/goods";
 import { pagination } from "@/utils/pagination";
@@ -60,6 +60,10 @@ import { pagination } from "@/utils/pagination";
 export default defineComponent({
   setup() {
     const data = reactive(new GoodsData());
+    onMounted(() => {
+      // 创建后调用
+      getList();
+    });
     //获取list列表数据
     const getList = (params = data.goodsFormInt) => {
       GetGoodsListApi(params).then((res) => {
@@ -73,8 +77,6 @@ export default defineComponent({
         data.goodsFormInt.total = res.data.length;
       });
     };
-    // 创建后调用
-    getList();
     // 查询按钮
     const resetPageReq = () => {
       let getSearchArrayList: goodsList[] = [];
@@ -90,11 +92,7 @@ export default defineComponent({
         getSearchArrayList = Array.from(new Set(FilterSearchItems()));
       }
       console.log(getSearchArrayList);
-      handlePagerCut(
-        1,
-        100,
-        getSearchArrayList
-      );
+      handlePagerCut(1, 100, getSearchArrayList);
       data.goodsFormInt.total = getSearchArrayList.length;
     };
     const FilterSearchItems = (values: string = "") => {
@@ -137,7 +135,7 @@ export default defineComponent({
     };
     /***
      * 点击搜索后需要对搜索后的数组进行分页时不能使用如下函数
-     * 
+     *
      */
     // 每页多少条切换
     const handleSizeChange = (val: number) => {
